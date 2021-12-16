@@ -28,6 +28,7 @@ import com.example.forage.BaseApplication
 import com.example.forage.R
 import com.example.forage.data.ForageableDao
 import com.example.forage.databinding.FragmentAddForageableBinding
+import com.example.forage.location.GPSUtils
 import com.example.forage.model.Forageable
 import com.example.forage.ui.viewmodel.ForageableViewModel
 import com.example.forage.ui.viewmodel.ForageableViewModelFactory
@@ -68,9 +69,11 @@ class AddForageableFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         val id = navigationArgs.id
         if (id > 0) {
-
+            // Edit screen
             viewModel.findById(id).observe(viewLifecycleOwner) {
                 forageable = it
                 bindForageable(it)
@@ -81,6 +84,15 @@ class AddForageableFragment : Fragment() {
                 deleteForageable(forageable)
             }
         } else {
+            // Add screen
+            GPSUtils.initPermissions(requireActivity())
+
+            GPSUtils.findDeviceLocation(requireActivity())
+            val lng = GPSUtils.longitude
+            val lat = GPSUtils.latitude
+
+            binding.locationAddressInput.setText("$lng, $lat")
+
             binding.saveBtn.setOnClickListener {
                 addForageable()
             }

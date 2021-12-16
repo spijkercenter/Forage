@@ -37,9 +37,11 @@ class PersistenceInstrumentationTests {
 
     @Before
     fun setup() {
+        // Arrange
         launchActivity<MainActivity>()
         onView(withId(R.id.add_forageable_fab)).perform(click())
 
+        // Act
         onView(withId(R.id.name_input)).perform(replaceText("Name"))
         onView(withId(R.id.location_address_input)).perform(replaceText("Address"))
         onView(withId(R.id.notes_input)).perform(replaceText("Notes"))
@@ -48,13 +50,17 @@ class PersistenceInstrumentationTests {
 
     @Test
     fun new_forageable_is_displayed_in_list() {
+        // Assert
         onView(withText("Name")).check(matches(isDisplayed()))
         onView(withText("Address")).check(matches(isDisplayed()))
     }
 
     @Test
     fun new_forageable_is_displayed_in_detail() {
+        // Act
         onView(withText("Name")).perform(click())
+
+        // Assert
         onView(withText("Name")).check(matches(isDisplayed()))
         onView(withText("Address")).check(matches(isDisplayed()))
         onView(withText(("Currently out of season"))).check(matches(isDisplayed()))
