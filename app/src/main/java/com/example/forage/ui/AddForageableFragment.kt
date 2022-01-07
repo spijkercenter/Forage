@@ -50,9 +50,9 @@ class AddForageableFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val viewModel: ForageableViewModel by lazy {
+    private val viewModel : ForageableViewModel by activityViewModels{
         val forageableDao = (requireActivity().application as BaseApplication).forageDatabase.forageableDao
-        ForageableViewModelFactory(forageableDao).create()
+        ForageableViewModelFactory(requireActivity(),forageableDao)
     }
 
 

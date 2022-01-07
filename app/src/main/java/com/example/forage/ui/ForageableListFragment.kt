@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.forage.BaseApplication
 import com.example.forage.R
@@ -35,9 +36,9 @@ import com.example.forage.ui.viewmodel.ForageableViewModelFactory
  */
 class ForageableListFragment : Fragment() {
 
-    private val viewModel: ForageableViewModel by lazy {
+    private val viewModel : ForageableViewModel by activityViewModels{
         val forageableDao = (requireActivity().application as BaseApplication).forageDatabase.forageableDao
-        ForageableViewModelFactory(forageableDao).create()
+        ForageableViewModelFactory(requireActivity(),forageableDao)
     }
 
     private var _binding: FragmentForageableListBinding? = null
