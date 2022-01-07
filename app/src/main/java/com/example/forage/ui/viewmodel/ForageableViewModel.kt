@@ -15,8 +15,10 @@
  */
 package com.example.forage.ui.viewmodel
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
+import androidx.savedstate.SavedStateRegistryOwner
 import com.example.forage.BaseApplication
 import com.example.forage.data.ForageDatabase
 import com.example.forage.data.ForageableDao
@@ -30,6 +32,7 @@ import kotlinx.coroutines.launch
  */
 
 class ForageableViewModel(
+    private val state: SavedStateHandle,
     private val forageableDao: ForageableDao
 ): ViewModel() {
 
@@ -90,9 +93,13 @@ class ForageableViewModel(
 }
 
 class ForageableViewModelFactory(
-    private val forageableDao: ForageableDao
-) {
-    fun create(): ForageableViewModel {
-        return ForageableViewModel(forageableDao)
-    }
+    owner: SavedStateRegistryOwner,
+    private val forageableDao: ForageableDao,
+    defaultArgs: Bundle? = null
+) : AbstractSavedStateViewModelFactory(owner, defaultArgs){
+    override fun <T : ViewModel?> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T = ForageableViewModel(handle, forageableDao) as T
 }

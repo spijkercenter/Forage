@@ -40,9 +40,9 @@ class ForageableDetailFragment : Fragment() {
 
     private val navigationArgs: ForageableDetailFragmentArgs by navArgs()
 
-    private val viewModel: ForageableViewModel by lazy {
+    private val viewModel : ForageableViewModel by activityViewModels{
         val forageableDao = (requireActivity().application as BaseApplication).forageDatabase.forageableDao
-        ForageableViewModelFactory(forageableDao).create()
+        ForageableViewModelFactory(requireActivity(),forageableDao)
     }
 
     private lateinit var forageable: Forageable
